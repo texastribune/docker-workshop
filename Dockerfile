@@ -12,3 +12,4 @@ ENV PATH /usr/local/go/bin:/usr/local/bin:/usr/bin:/bin:/app/go/bin
 
 RUN mkdir -p /app/go
 ENV GOPATH /app/go
+RUN apt-get -yq install wget curl
