@@ -15,6 +15,3 @@ clean:
 
 interactive:
 	docker run --rm --interactive --tty --name=${APP} ${NS}/${APP} bash
-
-push:
-	docker push ${NS}/${APP}
