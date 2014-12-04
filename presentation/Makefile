@@ -1,6 +1,9 @@
 APP=cleaver
 NS=x110dc
 
+open: run
+	open out.html
+
 build:
 	docker build --tag=${NS}/${APP} .
 
@@ -16,5 +19,3 @@ clean:
 interactive:
 	docker run --rm --interactive --tty --name=${APP} ${NS}/${APP} bash
 
-open: run
-	open out.html
