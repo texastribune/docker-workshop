@@ -16,7 +16,7 @@ output: /app/out.html
 - Benedick or Beatrice? Who spoke more?
 - how we're using it now
 - debugging
-- build context
+- build context and caching
 
 ---
 
@@ -37,6 +37,7 @@ https://docs.docker.com/installation/mac/
 ```
 docker pull texastribune/workshop
 docker pull texastribune/postgres
+docker pull texastribune/elasticsearch
 docker pull x110dc/rundeck
 
 git clone git@github.com:texastribune/docker-workshop.git
@@ -147,6 +148,8 @@ ENTRYPOINT /app/run.sh
 EXPOSE 80
 ```
 
+---
+
 ### Build an image
 
 ```
@@ -207,10 +210,40 @@ docker run --name=shakespeare -it --rm --link=db-workshop:postgres \
 
 ---
 
+### Tribtalk
+
+```
+make docker/test-setup
+make docker/test-load
+docker run --detach --publish=80:8000 \
+  --env=DEBUG=True \
+  --env=DJANGO_SETTINGS_MODULE=tribtalk.settings \
+  --env=DATABASE_URL=postgres://docker:docker@db:5432/docker \
+  --link=tribtalk-test-db:db \
+  --link=tribtalk-test-es:es --name=tribtalk
+texastribune/tribtalk
+```
+
+---
+
+### Rundeck
+
+```
+docker run --detach=true --publish=4440:4440 \
+  --env=MYHOST=docker.local \
+  --env=RDPASS=mypassword \
+  --env=MAILFROM=foo@bar.baz \
+  x110dc/rundeck
+```
+
+---
+
 ### Docker debugging
 
 - docker logs
 - mount a volume
+
+---
 
 ### Advanced
 
