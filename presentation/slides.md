@@ -290,7 +290,23 @@ docker run --detach=true --publish=4440:4440 \
 
 ---
 
-### Docker debugging
+### Benefits
+
+- hosts can be generic, disposable
+- faster (than VMs, AMIs)
+- fail fast
+- repeatable
+- less "it works for me"
+- less brew
+- less Puppet/Chef/Ansible/Salt
+- less virtualenv/rvm
+- Dockerfile DSL is simple
+
+---
+
+### Debugging
+
+![fail](http://distinctplace.com/assets/posts/docker_dark.jpg)
 
 - docker logs
 - mount a volume
