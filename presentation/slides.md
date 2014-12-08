@@ -98,6 +98,20 @@ add this to `/etc/hosts`
 
 ---
 
+### Images
+
+- immutable
+- no state
+- built in (cacheable) layers
+
+---
+
+### Containers
+
+- instance of image
+
+---
+
 ### image vs. container
 
     docker images
