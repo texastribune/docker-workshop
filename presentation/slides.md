@@ -2,7 +2,14 @@ output: /app/out.html
 # theme: jdan/cleaver-retro
 # theme: matmuchrapna/cleaver-ribbon
 # theme: sudodoki/reveal-cleaver-theme
---
+
+---
+
+### Docker Workshop
+
+![hotel](http://i.dailymail.co.uk/i/pix/2014/04/23/article-2611063-1D48CEF400000578-515_634x476.jpg)
+
+---
 
 
 ### Overview
