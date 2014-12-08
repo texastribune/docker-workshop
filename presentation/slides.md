@@ -88,7 +88,7 @@ git clone git@github.com:texastribune/tribtalk.git
 
 add this to `/etc/hosts`
 
-    192.168.59.103 docker.local
+    192.168.59.103 docker.local   # can be any name
 
 ---
 
