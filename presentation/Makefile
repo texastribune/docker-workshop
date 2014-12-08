@@ -10,7 +10,7 @@ build:
 debug:
 	docker run --volumes-from=${APP} --interactive=true --tty=true ${NS}/${APP} bash
 
-run:
+run: build
 	docker run -it --rm --volume=$$(pwd):/app --name=${APP} ${NS}/${APP}
 
 clean:
