@@ -28,6 +28,13 @@ output: /app/out.html
 ---
 
 
+#### Setup
+
+![pretty](https://pacifictycoon.files.wordpress.com/2011/09/1310094614-18.jpg)
+
+---
+
+
 ### Install boot2docker
 
 https://docs.docker.com/installation/mac/
