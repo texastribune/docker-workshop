@@ -39,11 +39,35 @@ output: /app/out.html
 
 https://docs.docker.com/installation/mac/
 
+---
+```
+boot2docker start
+Waiting for VM and Docker daemon to start...
+.....................................................oooo
+Started.
+Writing /Users/x110dc/.boot2docker/certs/boot2docker-vm/ca.pem
+Writing /Users/x110dc/.boot2docker/certs/boot2docker-vm/cert.pem
+Writing /Users/x110dc/.boot2docker/certs/boot2docker-vm/key.pem
+
+To connect the Docker client to the Docker daemon, please set:
+   export DOCKER_HOST=tcp://192.168.59.103:2376
+   export DOCKER_CERT_PATH=/home/.boot2docker/certs/boot2docker-vm
+   export DOCKER_TLS_VERIFY=1
+
+```
+
+Be sure to persist the environment variables somewhere (like a
+.profile) and source it.
+
+---
+
+### Verify environment
+```
     $ docker version
     Client version: 1.3.2
     [...]
     Server version: 1.3.2
-
+```
 ---
 
 ### Setup
