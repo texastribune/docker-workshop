@@ -5,15 +5,26 @@ output: /app/out.html
 
 ---
 
-### Docker Workshop
+### Intro to Docker Workshop
 
-![hotel](http://i.dailymail.co.uk/i/pix/2014/04/23/article-2611063-1D48CEF400000578-515_634x476.jpg)
+<img src="docker.jpg" width="100%">
 
 ---
 
+### About Me
+
+The Texas Tribune - nonprofit nonpartisan digital news 
+(www.texastribune.org)
+
+@x110dc (Twitter, GitHub)
+
+danielc@pobox.com
+
+---
 
 ### Overview
 
+- Why?
 - setup
 - review
 - publishing ports
@@ -27,46 +38,39 @@ output: /app/out.html
 
 ---
 
+### Why Docker?
+
+- repeatable
+- hosts can be generic, disposable
+- laptop not cluttered
+- less "it works for me"
+- Dockerfile DSL is simple
+
+---
 
 #### Setup
 
-![pretty](https://pacifictycoon.files.wordpress.com/2011/09/1310094614-18.jpg)
+<img src="docker2.jpg" width="100%">
 
 ---
 
 
-### Install boot2docker
+### Install Docker Toolbox
 
-https://docs.docker.com/installation/mac/
-
----
-```
-boot2docker start
-Waiting for VM and Docker daemon to start...
-.....................................................oooo
-Started.
-Writing /Users/x110dc/.boot2docker/certs/boot2docker-vm/ca.pem
-Writing /Users/x110dc/.boot2docker/certs/boot2docker-vm/cert.pem
-Writing /Users/x110dc/.boot2docker/certs/boot2docker-vm/key.pem
-
-To connect the Docker client to the Docker daemon, please set:
-   export DOCKER_HOST=tcp://192.168.59.103:2376
-   export DOCKER_CERT_PATH=/home/.boot2docker/certs/boot2docker-vm
-   export DOCKER_TLS_VERIFY=1
-
-```
-
-Be sure to persist the environment variables somewhere (like a
-.profile) and source it.
+https://www.docker.com/toolbox
 
 ---
 
-### Verify environment
+### Configure environment
+
 ```
+    $ eval "$(docker-machine env default)"
     $ docker version
-    Client version: 1.3.2
-    [...]
-    Server version: 1.3.2
+      Client:
+      Version:      1.8.3
+      [...]
+      Server:
+      Version:      1.8.3
 ```
 ---
 
@@ -75,11 +79,9 @@ Be sure to persist the environment variables somewhere (like a
 ```
 docker pull texastribune/workshop
 docker pull texastribune/postgres
-docker pull texastribune/elasticsearch
 docker pull x110dc/rundeck
 
 git clone git@github.com:texastribune/docker-workshop.git
-git clone git@github.com:texastribune/tribtalk.git
 ```
 
 ---
@@ -88,27 +90,31 @@ git clone git@github.com:texastribune/tribtalk.git
 
 add this to `/etc/hosts`
 
-    192.168.59.103 docker.local   # can be any name
-
----
-
-### Docker Hub
-
-    docker login
+    192.168.99.100 docker.local   # can be any name
 
 ---
 
 ### Images
+<img src="cdrom.jpg" width="60%">
 
+---
+### Images
 - immutable
 - no state
 - built in (cacheable) layers
+
+---
+### Containers
+
+<img src="cassette.png" width="100%">
 
 ---
 
 ### Containers
 
 - instance of image
+- mutable
+- disposable (usually)
 
 ---
 
@@ -237,44 +243,16 @@ docker build --tag=shakespeare .
 ###  Run it:
 
 ```
-docker run --name=shakespeare -it --rm --link=db-workshop:postgres \
+docker run --name=shakespeare \
+  -it --rm --link=db-workshop:postgres \
   --publish=80:80 shakespeare
 ```
 
 ---
 
-### How we're using Docker right now:
-
-- salaries
-- local databases, elasticsearch
-- Jenkins site speed testing
-- Rundeck jobs refresh test databases
-- email delivery for Jenkins and Rundeck
-- pixcelcite
-- sputnik
-
----
-
 ### Docker makes bootstrapping easy:
 
-- texastribune/tribtalk
 - x110dc/rundeck
-
----
-
-### Tribtalk
-
-```
-make docker/test-setup
-make docker/test-load
-docker run --detach --publish=80:8000 \
-  --env=DEBUG=True \
-  --env=DJANGO_SETTINGS_MODULE=tribtalk.settings \
-  --env=DATABASE_URL=postgres://docker:docker@db:5432/docker \
-  --link=tribtalk-test-db:db \
-  --link=tribtalk-test-es:es --name=tribtalk
-texastribune/tribtalk
-```
 
 ---
 
@@ -290,23 +268,14 @@ docker run --detach=true --publish=4440:4440 \
 
 ---
 
-### Benefits
 
-- hosts can be generic, disposable
-- faster (than VMs, AMIs)
-- fail fast
-- repeatable
-- less "it works for me"
-- less brew
-- less Puppet/Chef/Ansible/Salt
-- less virtualenv/rvm
-- Dockerfile DSL is simple
+### Debugging
+
+<img src="docker3.jpg" width="60%">
 
 ---
 
 ### Debugging
-
-![fail](http://distinctplace.com/assets/posts/docker_dark.jpg)
 
 - docker logs
 - mount a volume
@@ -318,3 +287,12 @@ docker run --detach=true --publish=4440:4440 \
 - build context
 - `.dockerignore`
 - caching
+
+
+---
+### More resources
+
+- Docker is changing rapidly
+- look for recent pub dates on articles and videos
+- books are quickly out of date
+- follow @jpetazzo, @frazelledazzell
