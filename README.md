@@ -24,4 +24,4 @@ make
 ```
 
 ### Lifecycle
-![foo](presentation/lifecycle.svg)
+![foo](lifecycle.png)
