@@ -25,14 +25,12 @@ danielc@pobox.com
 ### Overview
 
 - Why?
-- setup
-- review
-- publishing ports
+- images vs. containers
+- lifecycle
 - linking
 - volumes
 - Dockerfiles
 - Benedick or Beatrice? Who spoke more?
-- how we're using it now
 - debugging
 - build context and caching
 
@@ -42,6 +40,7 @@ danielc@pobox.com
 
 - repeatable
 - hosts can be generic, disposable
+- it's easy to try things out
 - laptop not cluttered
 - less "it works for me"
 - Dockerfile DSL is simple
@@ -71,6 +70,7 @@ https://www.docker.com/toolbox
       [...]
       Server:
       Version:      1.8.3
+    $ docker run hello-world
 ```
 ---
 
@@ -88,9 +88,11 @@ git clone git@github.com:texastribune/docker-workshop.git
 
 ### Configuration - set a hostname
 
+    $ docker-machine ip default
+
 add this to `/etc/hosts`
 
-    192.168.99.100 docker.local   # can be any name
+    192.168.99.100  docker.local   # can be any name
 
 ---
 
@@ -142,6 +144,7 @@ add this to `/etc/hosts`
 ports exposed to the host
 ```
     docker run -it -P texastribune/postgres
+
     docker run -it --publish=5432 texastribune/postgres
 
     docker run -it --publish=5432:5432 texastribune/postgres
@@ -179,9 +182,9 @@ ports exposed to the host
 ### Dockerfile
 
 ```
-FROM node
+FROM node:4.2.1   # when possible pin versions
 
-RUN npm install -g cleaver
+RUN npm install -g cleaver@0.7.4
 
 CMD ["cleaver", "/app/slides.md"]
 

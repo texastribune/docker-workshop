@@ -13,7 +13,7 @@ debug:
 clean:
 	docker stop ${APP} && docker rm ${APP}
 
-interactive:
+run: build
 	docker run --rm \
 		--publish=80:8888 \
 		--interactive \
