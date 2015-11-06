@@ -237,7 +237,7 @@ WHERE charname LIKE 'Be%'
 ### Docker makes bootstrapping easy:
 
 ```
-cd juptyer
+cd jupyter
 make run
 ```
 ---
@@ -248,71 +248,12 @@ make run
 ![foo](lifecycle.svg)
 
 
-
-### Build an image
-
-```
-cd shakespeare
-docker build --tag=shakespeare .
-```
-
 ---
-
-### Build
-
-```
-    docker build --tag=shakespeare .
-    Sending build context to Docker daemon  5.12 kB
-    Step 0 : FROM texastribune/workshop
-    ---> fcdd4b3add57
-    Step 1 : RUN go get github.com/sosedoff/pgweb
-    ---> 0696f5f50ae9
-    Step 2 : ADD
-    https://raw.githubusercontent.com/catherinedevlin/opensourceshakespeare/master/shakespeare.sql /app/
-    Downloading 15.05 MB
-    [...]
-    ---> 1c869280c1ef
-    Step 6 : EXPOSE 80
-    ---> Running in d19900919828
-    ---> bee7568d8ba0
-    Removing intermediate container d19900919828
-    Successfully built bee7568d8ba0
-```
-
----
-
-###  Run it:
-
-```
-docker run --name=shakespeare \
-  --interactive --tty --rm \
-  --link=db-workshop:postgres \
-  --publish=80:80 shakespeare
-```
-
----
-
-### Who spoke more?
-```
-SELECT charname, speechcount
-FROM character
-WHERE charname LIKE 'Be%'
-```
-
----
-
-### Docker makes bootstrapping easy:
-
-```
-cd juptyer
-make run
-```
 
 ### More resources
 
 - blog.docker.com
 - docs.docker.com
-- `#docker`
 - `docker help`
 - Docker is changing rapidly
 - look for recent pub dates on articles and videos
@@ -321,6 +262,12 @@ make run
 - visualizing Docker: http://bit.ly/1NpT5Ko
 
 ---
+
+### load a Docker image from disk
+
+- `docker load < file.tar.gz`
+---
+
 ### containers are isolated
 
 ```
@@ -368,12 +315,6 @@ ports exposed to the host
 
 <img src="docker3.jpg" width="60%">
 
-
----
-
-### Debugging
-
-<img src="docker3.jpg" width="60%">
 
 ---
 
