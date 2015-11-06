@@ -114,6 +114,8 @@ add this to `/etc/hosts`
 - immutable
 - no state
 - built in (cacheable) layers
+- Docker Hub
+- official and user
 
 ---
 ### Containers
