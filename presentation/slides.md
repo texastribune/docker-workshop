@@ -390,6 +390,8 @@ make run
 - build context
 - `.dockerignore`
 - caching
+- `docker exec`
+- layers
 
 
 ---
