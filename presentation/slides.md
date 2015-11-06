@@ -5,7 +5,7 @@ output: /app/out.html
 
 ---
 
-### Intro to Docker Workshop
+### Diving into Docker: Developing a Darn Fast, Repeatable Workflow
 
 <img src="docker.jpg" width="100%">
 
@@ -13,12 +13,14 @@ output: /app/out.html
 
 ### About Me
 
-The Texas Tribune - nonprofit nonpartisan digital news 
+The Texas Tribune - nonprofit nonpartisan digital news
 (www.texastribune.org)
 
 @x110dc (Twitter, GitHub)
 
 danielc@pobox.com
+
+Slides: http://github.com/x110dc/docker-workshop
 
 ---
 
@@ -26,13 +28,12 @@ danielc@pobox.com
 
 - Why?
 - images vs. containers
-- lifecycle
-- linking
-- volumes
 - Dockerfiles
+- lifecycle
 - Benedick or Beatrice? Who spoke more?
-- debugging
-- build context and caching
+- more resources
+- linking, volumes
+- debugging & advanced
 
 ---
 
@@ -43,11 +44,12 @@ danielc@pobox.com
 - it's easy to try things out
 - laptop not cluttered
 - less "it works for me"
+- sandbox & toolbox
 - Dockerfile DSL is simple
 
 ---
 
-#### Setup
+### Setup
 
 <img src="docker2.jpg" width="100%">
 
@@ -66,12 +68,21 @@ https://www.docker.com/toolbox
     $ eval "$(docker-machine env default)"
     $ docker version
       Client:
-      Version:      1.8.3
+      Version:      1.9.0
       [...]
       Server:
-      Version:      1.8.3
+      Version:      1.9.0
     $ docker run hello-world
 ```
+---
+
+### What did we just do?
+
+- client/server
+- configured client to talk to server
+- pulled an image
+- executed that image
+
 ---
 
 ### Setup
@@ -79,7 +90,6 @@ https://www.docker.com/toolbox
 ```
 docker pull texastribune/workshop
 docker pull texastribune/postgres
-docker pull x110dc/rundeck
 
 git clone git@github.com:texastribune/docker-workshop.git
 ```
@@ -120,65 +130,6 @@ add this to `/etc/hosts`
 
 ---
 
-### image vs. container
-
-    docker images
-
-    docker ps
-
-    docker ps -a
-
-<!-- image is like a CD-ROM; container is like a laptop -->
-
----
-
-### Lifecycle
-![foo](lifecycle.svg)
-
----
-### containers are isolated
-
-```
-    docker run -it texastribune/postgres
-```
-ports exposed to the host
-```
-    docker run -it -P texastribune/postgres
-
-    docker run -it --publish=5432 texastribune/postgres
-
-    docker run -it --publish=5432:5432 texastribune/postgres
-```
----
-
-### Linking
-
-```
-    $ docker run --detach --name=db-workshop texastribune/postgres
-
-    $ docker run -it --rm --link=db-workshop:postgres texastribune/workshop
-
-    # psql -U docker -h postgres
-    docker=# \list
-```
-
----
-### Volumes
-
-- are part of a container, not an image
-- can be shared
-- can be mounted from the host OS
-- used for persistent data, logs, configuration files, backups
-
-```
-  docker inspect db-workshop
-  docker run -it --rm --volumes-from=db-workshop texastribune/workshop
-  # cd /var/log
-
-```
-
----
-
 ### Dockerfile
 
 ```
@@ -208,6 +159,18 @@ ENTRYPOINT /app/run.sh
 
 EXPOSE 80
 ```
+
+---
+
+### image vs. container
+
+    docker images
+
+    docker ps
+
+    docker ps -a
+
+<!-- image is like a CD-ROM; container is like a laptop -->
 
 ---
 
@@ -247,30 +210,159 @@ docker build --tag=shakespeare .
 
 ```
 docker run --name=shakespeare \
-  -it --rm --link=db-workshop:postgres \
+  --interactive --tty --rm \
+  --link=db-workshop:postgres \
   --publish=80:80 shakespeare
+```
+
+---
+
+### Who spoke more?
+```
+SELECT charname, speechcount
+FROM character
+WHERE charname LIKE 'Be%'
 ```
 
 ---
 
 ### Docker makes bootstrapping easy:
 
-- x110dc/rundeck
+```
+cd juptyer
+make run
+```
+---
+
+
+
+### Lifecycle
+![foo](lifecycle.svg)
+
+---
+### containers are isolated
+
+```
+    docker run -it texastribune/postgres
+```
+ports exposed to the host
+```
+    docker run -it -P texastribune/postgres
+
+    docker run -it --publish=5432 texastribune/postgres
+
+    docker run -it --publish=5432:5432 texastribune/postgres
+```
+---
+
+
+### Build an image
+
+```
+cd shakespeare
+docker build --tag=shakespeare .
+```
 
 ---
 
-### Rundeck
+### Build
 
 ```
-docker run --detach=true --publish=4440:4440 \
-  --env=MYHOST=docker.local \
-  --env=RDPASS=mypassword \
-  --env=MAILFROM=foo@bar.baz \
-  x110dc/rundeck
+    docker build --tag=shakespeare .
+    Sending build context to Docker daemon  5.12 kB
+    Step 0 : FROM texastribune/workshop
+    ---> fcdd4b3add57
+    Step 1 : RUN go get github.com/sosedoff/pgweb
+    ---> 0696f5f50ae9
+    Step 2 : ADD
+    https://raw.githubusercontent.com/catherinedevlin/opensourceshakespeare/master/shakespeare.sql /app/
+    Downloading 15.05 MB
+    [...]
+    ---> 1c869280c1ef
+    Step 6 : EXPOSE 80
+    ---> Running in d19900919828
+    ---> bee7568d8ba0
+    Removing intermediate container d19900919828
+    Successfully built bee7568d8ba0
 ```
 
 ---
 
+###  Run it:
+
+```
+docker run --name=shakespeare \
+  --interactive --tty --rm \
+  --link=db-workshop:postgres \
+  --publish=80:80 shakespeare
+```
+
+---
+
+### Who spoke more?
+```
+SELECT charname, speechcount
+FROM character
+WHERE charname LIKE 'Be%'
+```
+
+---
+
+### Docker makes bootstrapping easy:
+
+```
+cd juptyer
+make run
+```
+
+### More resources
+
+- blog.docker.com
+- docs.docker.com
+- `#docker`
+- `docker help`
+- Docker is changing rapidly
+- look for recent pub dates on articles and videos
+- books are quickly out of date
+- follow @jpetazzo, @frazelledazzell
+- visualizing Docker: http://bit.ly/1NpT5Ko
+
+---
+
+### Linking
+
+```
+    $ docker run --detach --name=db-workshop texastribune/postgres
+
+    $ docker run -it --rm --link=db-workshop:postgres texastribune/workshop
+
+    # psql -U docker -h postgres
+    docker=# \list
+```
+
+---
+### Volumes
+
+- are part of a container, not an image
+- can be shared
+- can be mounted from the host OS
+- used for persistent data, logs, configuration files, backups
+
+```
+  docker inspect db-workshop
+  docker run -it --rm --volumes-from=db-workshop texastribune/workshop
+  # cd /var/log
+
+```
+
+---
+
+### Debugging
+
+<img src="docker3.jpg" width="60%">
+
+
+---
 
 ### Debugging
 
@@ -293,9 +385,4 @@ docker run --detach=true --publish=4440:4440 \
 
 
 ---
-### More resources
 
-- Docker is changing rapidly
-- look for recent pub dates on articles and videos
-- books are quickly out of date
-- follow @jpetazzo, @frazelledazzell

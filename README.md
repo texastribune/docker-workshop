@@ -15,7 +15,7 @@ https://www.docker.com/toolbox
     $ docker run hello-world
 ```
 
-### Setup
+### To view slide deck (requires Docker)
 
 ```
 git clone git@github.com:texastribune/docker-workshop.git
@@ -25,3 +25,19 @@ make
 
 ### Lifecycle
 ![foo](lifecycle.png)
+
+
+### Shakespeare
+
+```
+cd shakespeare
+make run
+
+```
+
+### Jupyter
+
+```
+cd juptyer
+make run
+```
