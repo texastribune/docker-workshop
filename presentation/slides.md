@@ -207,6 +207,12 @@ docker build --tag=shakespeare .
 ```
 
 ---
+### Background and Foreground
+
+- `docker --detach  # or -d`
+- `docker --interactive --tty # or -it`
+
+---
 
 ###  Run it:
 
