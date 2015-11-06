@@ -247,21 +247,6 @@ make run
 ### Lifecycle
 ![foo](lifecycle.svg)
 
----
-### containers are isolated
-
-```
-    docker run -it texastribune/postgres
-```
-ports exposed to the host
-```
-    docker run -it -P texastribune/postgres
-
-    docker run -it --publish=5432 texastribune/postgres
-
-    docker run -it --publish=5432:5432 texastribune/postgres
-```
----
 
 
 ### Build an image
@@ -335,6 +320,20 @@ make run
 - follow @jpetazzo, @frazelledazzell
 - visualizing Docker: http://bit.ly/1NpT5Ko
 
+---
+### containers are isolated
+
+```
+    docker run -it texastribune/postgres
+```
+ports exposed to the host
+```
+    docker run -it -P texastribune/postgres
+
+    docker run -it --publish=5432 texastribune/postgres
+
+    docker run -it --publish=5432:5432 texastribune/postgres
+```
 ---
 
 ### Linking
