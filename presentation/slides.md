@@ -223,6 +223,10 @@ docker run --name=shakespeare \
   --publish=80:80 shakespeare
 ```
 
+Visit:
+
+`http://docker.local/` in your browser
+
 ---
 
 ### Who spoke more?
