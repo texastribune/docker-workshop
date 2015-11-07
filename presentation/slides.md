@@ -256,6 +256,7 @@ make run
 
 ### More resources
 
+- https://public.etherpad-mozilla.org/p/Diving-into-docker
 - blog.docker.com
 - docs.docker.com
 - `docker help`
