@@ -20,7 +20,7 @@ The Texas Tribune - nonprofit nonpartisan digital news
 
 danielc@pobox.com
 
-Slides: http://github.com/x110dc/docker-workshop
+Slides: http://github.com/texastribune/docker-workshop
 
 ---
 
