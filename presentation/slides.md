@@ -253,6 +253,10 @@ WHERE charname LIKE 'Be%'
 cd jupyter
 make run
 ```
+or
+```
+docker run -it --rm neurodebian
+```
 ---
 
 
