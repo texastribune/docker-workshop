@@ -262,7 +262,7 @@ docker run -it --rm neurodebian
 
 
 ### Lifecycle
-![foo](lifecycle.svg)
+![lifecycle](lifecycle.png)
 
 
 ---
