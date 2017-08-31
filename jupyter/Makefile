@@ -23,6 +23,16 @@ run: build
 		--name=${APP} ${NS}/${APP} jupyter notebook --ip=0.0.0.0 --no-browser --notebook-dir=/app
 #		--entrypoint=jupyter \
 #		--name=${APP} ${NS}/${APP} bash
+#
+shell: build
+	docker run --rm \
+		--publish=80:8888 \
+		--interactive \
+		--tty \
+		--workdir=/app \
+		--volume=$$(pwd):/app \
+		--entrypoint=bash \
+		--name=${APP} ${NS}/${APP}
 
 push:
 	docker push ${NS}/${APP}
