@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 phd dropdb
 phd createdb
 cat /app/shakespeare.sql | phd psql
