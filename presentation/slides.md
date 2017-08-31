@@ -39,7 +39,7 @@ Slides: http://github.com/texastribune/docker-workshop
 
 ### What
 
-> Docker containers wrap up a piece of software in a complete filesystem that contains
+> Docker containers wrap up a piece of software in a complete system that contains
 > everything it needs to run: code, runtime, system tools, system libraries – anything
 > you can install on a server. This guarantees that it will always run the same,
 > regardless of the environment it is running in.
@@ -65,22 +65,25 @@ Slides: http://github.com/texastribune/docker-workshop
 ---
 
 
-### Install Docker Toolbox
+### Install Docker 
 
-https://www.docker.com/toolbox
+https://docs.docker.com/docker-for-mac/
+
+or 
+
+https://docs.docker.com/docker-for-windows/
 
 ---
 
-### Configure environment
+### Confirm environment
 
 ```
-    $ eval "$(docker-machine env default)"
     $ docker version
       Client:
-      Version:      1.9.0
+      Version:      17.06.1-ce
       [...]
       Server:
-      Version:      1.9.0
+      Version:      17.06.1-ce
     $ docker run hello-world
 ```
 ---
@@ -98,20 +101,13 @@ https://www.docker.com/toolbox
 
 ```
 docker pull texastribune/workshop
-docker pull texastribune/postgres
+
+docker network create foo
+docker run -it --net=foo -e POSTGRES_PASSWORD=docker \
+   -e POSTGRES_USER=docker --name=postgres postgres
 
 git clone git@github.com:texastribune/docker-workshop.git
 ```
-
----
-
-### Configuration - set a hostname
-
-    $ docker-machine ip default
-
-add this to `/etc/hosts`
-
-    192.168.99.100  docker.local   # can be any name
 
 ---
 
@@ -228,13 +224,13 @@ docker build --tag=shakespeare .
 ```
 docker run --name=shakespeare \
   --interactive --tty --rm \
-  --link=db-workshop:postgres \
+  --net=foo --name=shakespeare \
   --publish=80:80 shakespeare
 ```
 
 Visit:
 
-`http://docker.local/` in your browser
+`http://localhost/` in your browser
 
 ---
 
@@ -289,7 +285,6 @@ docker run -it --rm neurodebian
 ### containers are isolated
 
 ```
-    docker run -it texastribune/postgres
 ```
 ports exposed to the host
 ```

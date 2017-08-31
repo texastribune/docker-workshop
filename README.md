@@ -1,19 +1,10 @@
-### Install Docker Toolbox
+### Install Docker 
 
-https://www.docker.com/toolbox
+https://docs.docker.com/docker-for-mac/
 
-### Configure environment
+or 
 
-```
-    $ eval "$(docker-machine env default)"
-    $ docker version
-      Client:
-      Version:      X.X.X
-      [...]
-      Server:
-      Version:      X.X.X
-    $ docker run hello-world
-```
+https://docs.docker.com/docker-for-windows/
 
 ### To view slide deck (requires Docker)
 
