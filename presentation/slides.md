@@ -91,7 +91,6 @@ https://docs.docker.com/docker-for-windows/
 ### What did we just do?
 
 - client/server
-- configured client to talk to server
 - pulled an image
 - executed that image
 
@@ -100,13 +99,8 @@ https://docs.docker.com/docker-for-windows/
 ### Setup
 
 ```
-docker pull texastribune/workshop
-
-docker network create foo
-docker run -it --net=foo -e POSTGRES_PASSWORD=docker \
-   -e POSTGRES_USER=docker --name=postgres postgres
-
 git clone git@github.com:texastribune/docker-workshop.git
+
 ```
 
 ---
@@ -155,13 +149,13 @@ CMD ["cleaver", "/app/slides.md"]
 ```
 FROM ubuntu:16.04 as builder
 
-RUN apt-get update && apt-get install -qy zip wget
+RUN apt-get update && apt-get install -qy zip
 
 WORKDIR /tmp
 
 ENV PGWEB_VERSION 0.9.8
 
-RUN wget https://github.com/sosedoff/pgweb/releases/download/v$PGWEB_VERSION/pgweb_linux_amd64.zip
+ADD https://github.com/sosedoff/pgweb/releases/download/v$PGWEB_VERSION/pgweb_linux_amd64.zip /tmp
 RUN unzip pgweb_linux_amd64.zip
 
 FROM onjin/alpine-postgres:9.6
@@ -172,7 +166,7 @@ RUN pip install postdoc
 ADD https://raw.githubusercontent.com/catherinedevlin/opensourceshakespeare/master/shakespeare.sql /app/
 COPY run.sh /app/
 
-ENV DATABASE_URL postgres://docker:docker@postgres:5432/?sslmode=disable
+ENV DATABASE_URL postgres://postgres:postgres@postgres:5432/?sslmode=disable
 
 ENTRYPOINT /app/run.sh
 EXPOSE 80
@@ -233,6 +227,8 @@ docker build --tag=shakespeare .
 ###  Run it:
 
 ```
+docker network create foo
+docker run -it --net=foo -e --name=postgres postgres:9.6
 docker run --name=shakespeare \
   --interactive --tty --rm \
   --net=foo --name=shakespeare \
@@ -276,21 +272,14 @@ docker run -it --rm neurodebian
 
 ### More resources
 
-- https://public.etherpad-mozilla.org/p/Diving-into-docker
 - blog.docker.com
 - docs.docker.com
 - `docker help`
 - Docker is changing rapidly
 - look for recent pub dates on articles and videos
 - books are quickly out of date
-- follow @jpetazzo, @frazelledazzell
 - visualizing Docker: http://bit.ly/1NpT5Ko
 
----
-
-### load a Docker image from disk
-
-- `docker load < file.tar.gz`
 ---
 
 ### containers are isolated
@@ -299,23 +288,27 @@ docker run -it --rm neurodebian
 ```
 ports exposed to the host
 ```
-    docker run -it -P texastribune/postgres
+    docker run -it -P postgres
 
-    docker run -it --publish=5432 texastribune/postgres
+    docker run -it --publish=5432 postgres
 
-    docker run -it --publish=5432:5432 texastribune/postgres
+    docker run -it --publish=5432:5432 postgres
 ```
 ---
 
-### Linking
+### Linking/Networking
 
 ```
-    $ docker run --detach --name=db-workshop texastribune/postgres
+    $ docker network create foo
 
-    $ docker run -it --rm --link=db-workshop:postgres texastribune/workshop
+    $ docker run --net=foo --detach --name=db-workshop postgres
 
-    # psql -U docker -h postgres
-    docker=# \list
+    $ docker run -it --rm --net=foo postgres:9.6 bash
+
+    # psql -U postgres -h db-workshop
+    postgres=# \list
+    postgres=# \dt
+    
 ```
 
 ---
@@ -328,8 +321,8 @@ ports exposed to the host
 
 ```
   docker inspect db-workshop
-  docker run -it --rm --volumes-from=db-workshop texastribune/workshop
-  # cd /var/log
+  docker run -it --rm --volumes-from=db-workshop postgres
+  # cd /var/lib/postgresql/data
 
 ```
 
@@ -356,7 +349,3 @@ ports exposed to the host
 - caching
 - `docker exec`
 - layers
-
-
----
-

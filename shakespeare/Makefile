@@ -7,14 +7,17 @@ DB_CONTAINER=db-workshop
 build:
 	docker build --tag=${IMAGE} .
 
-db:
-	docker start ${DB_CONTAINER} || docker run --detach --name=${DB_CONTAINER} texastribune/postgres
+net:
+	-docker network create foo
+
+db: net
+	docker start ${DB_CONTAINER} || docker run --detach --net=foo --name=${DB_CONTAINER} postgres:9.6
 
 debug:
 	docker run --volumes-from=${APP} --interactive=true --tty=true ${IMAGE} bash
 
 run: db
-	docker run --name=${APP} -it --rm --link=${DB_CONTAINER}:postgres --publish=80:80 ${IMAGE}
+	docker run --name=${APP} -it --rm --net=foo --publish=80:80 ${IMAGE}
 
 clean:
 	docker stop ${APP} && docker rm ${APP} || true
