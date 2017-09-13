@@ -228,7 +228,7 @@ docker build --tag=shakespeare .
 
 ```
 docker network create foo
-docker run -it --net=foo -e --name=postgres postgres:9.6
+docker run -d --net=foo --name=postgres postgres:9.6
 docker run --name=shakespeare \
   --interactive --tty --rm \
   --net=foo --name=shakespeare \
