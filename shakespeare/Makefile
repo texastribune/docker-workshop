@@ -1,11 +1,11 @@
 APP=shakespeare
 NS=texastribune
 IMAGE=${NS}/${APP}
-DB_CONTAINER=db-workshop
+DB_CONTAINER=postgres
 
 
 build:
-	docker build --tag=${IMAGE} .
+	docker build --tag=shakespeare .
 
 net:
 	-docker network create foo

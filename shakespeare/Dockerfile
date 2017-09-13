@@ -17,7 +17,7 @@ RUN pip install postdoc
 ADD https://raw.githubusercontent.com/catherinedevlin/opensourceshakespeare/master/shakespeare.sql /app/
 COPY run.sh /app/
 
-ENV DATABASE_URL postgres://postgres:postgres@db-workshop:5432/?sslmode=disable
+ENV DATABASE_URL postgres://postgres:postgres@postgres:5432/?sslmode=disable
 
 ENTRYPOINT /app/run.sh
 EXPOSE 80
