@@ -349,3 +349,4 @@ ports exposed to the host
 - caching
 - `docker exec`
 - layers
+- docker compose
