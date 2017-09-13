@@ -2,7 +2,7 @@ FROM texastribune/base
 MAINTAINER danielc@pobox.com
 
 RUN apt-get update && \
-      apt-get -yq install postgresql-client git && \
+      apt-get -yq install postgresql-client git wget curl && \
       pip install postdoc
 
 # install Go
@@ -12,4 +12,3 @@ ENV PATH /usr/local/go/bin:/usr/local/bin:/usr/bin:/bin:/app/go/bin:/usr/local/s
 
 RUN mkdir -p /app/go
 ENV GOPATH /app/go
-RUN apt-get -yq install wget curl
